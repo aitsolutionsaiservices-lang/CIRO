@@ -7,6 +7,7 @@ venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.eggs/
 
 # ---- Env / secrets ----
 .env
@@ -32,29 +33,27 @@ yarn-error.log*
 .expo-shared/
 web-build/
 
-# ---- OS / editors / dev-tool artifacts ----
+# ---- OS / editors ----
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
 *.swp
-.claude/
-CLAUDE.md
-.cursor/
-.aider*
-.codeium/
+
+# ---- Local-only working folders ----
+_archive/
+.tools/
+logs/
+runs/
 
 # ---- Build artifacts ----
 apps/web/dist/
 apps/mobile/.expo-web/
 
-# tsc emit when type-checking — Vite handles bundling so we never commit these
+# tsc emit when type-checking — Vite handles bundling
 apps/web/src/**/*.js
 apps/web/src/**/*.d.ts
 apps/web/vite.config.js
 apps/web/vite.config.d.ts
 apps/web/*.tsbuildinfo
 apps/mobile/*.tsbuildinfo
-
-# uvicorn/pip caches
-.eggs/
