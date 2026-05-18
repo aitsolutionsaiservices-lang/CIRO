@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "CIRO",
+    "slug": "ciro-mobile",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "ciro",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ai.ciro.mobile",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBH_rVk8CPlCVx0--vAtTZqmChG7phlJFY"
+      },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "CIRO uses your location to tag citizen reports with where the issue is happening."
+      }
+    },
+    "android": {
+      "package": "ai.ciro.mobile",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBH_rVk8CPlCVx0--vAtTZqmChG7phlJFY"
+        }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "CIRO uses your location to tag citizen reports."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "apiBase": "http://localhost:8000"
+    }
+  }
+}

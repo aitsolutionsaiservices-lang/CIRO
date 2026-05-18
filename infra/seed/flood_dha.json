@@ -1,0 +1,182 @@
+{
+    "scenario_id": "flood_dha_2025_07_15",
+    "scenario_name": "Monsoon Flooding — DHA Phase 6, Karachi",
+    "name": "Monsoon Flooding — DHA Phase 6, Karachi",
+    "description": "Heavy monsoon rain triggers urban flooding in DHA Phase 6 over a 30-minute window. Signals arrive from PMD weather feed, traffic sensors, social media, and citizen reports.",
+    "centroid": {
+        "lat": 24.8000,
+        "lng": 67.0535
+    },
+    "epicenter": {
+        "lat": 24.8000,
+        "lng": 67.0535,
+        "label": "DHA Phase 6, Karachi"
+    },
+    "radius_km": 1.5,
+    "signals": [
+        {
+            "timestamp": "2025-07-15T07:30:00Z",
+            "geo": {
+                "lat": 24.8012,
+                "lng": 67.0521
+            },
+            "source": "weather",
+            "raw_text": "PMD Karachi: Heavy rainfall recorded at DHA observation point. 42mm in last hour.",
+            "structured_data": {
+                "rainfall_mm_per_hr": 42,
+                "wind_kmh": 28,
+                "station_id": "PMD-KHI-DHA-01",
+                "advisory_level": "yellow"
+            }
+        },
+        {
+            "timestamp": "2025-07-15T07:42:00Z",
+            "geo": {
+                "lat": 24.7984,
+                "lng": 67.0464
+            },
+            "source": "traffic",
+            "raw_text": "Average speed on Khayaban-e-Ittehad dropped from 38 km/h to 9 km/h over last 12 minutes.",
+            "structured_data": {
+                "road_segment": "Khayaban-e-Ittehad",
+                "avg_speed_kmh": 9,
+                "baseline_speed_kmh": 38,
+                "vehicle_count": 184,
+                "incident_type": "congestion"
+            }
+        },
+        {
+            "timestamp": "2025-07-15T07:48:00Z",
+            "geo": {
+                "lat": 24.8021,
+                "lng": 67.0556
+            },
+            "source": "citizen_report",
+            "raw_text": "Bukhari commercial mein ankle deep pani khara hai. Main road bilkul block.",
+            "structured_data": {
+                "reporter_id": "user_8821",
+                "channel": "mobile_app",
+                "water_level_estimate": "ankle",
+                "photo_attached": true
+            }
+        },
+        {
+            "timestamp": "2025-07-15T07:51:00Z",
+            "geo": {
+                "lat": 24.7993,
+                "lng": 67.0487
+            },
+            "source": "social",
+            "raw_text": "Trapped in my car near Sehar Commercial yaar 😭 water everywhere, engine band ho gaya. Koi help kar sakta hai? #KarachiRain",
+            "structured_data": {
+                "platform": "twitter",
+                "user_followers": 312,
+                "likes": 14,
+                "retweets": 3,
+                "hashtags": [
+                    "KarachiRain"
+                ]
+            }
+        },
+        {
+            "timestamp": "2025-07-15T07:53:00Z",
+            "geo": {
+                "lat": 24.8035,
+                "lng": 67.0571
+            },
+            "source": "traffic",
+            "raw_text": "Road segment 26th Street DHA Phase 6 fully blocked. Zero vehicle movement detected for 4 minutes.",
+            "structured_data": {
+                "road_segment": "26th Street, Phase 6",
+                "avg_speed_kmh": 0,
+                "baseline_speed_kmh": 32,
+                "vehicle_count": 47,
+                "incident_type": "blockage"
+            }
+        },
+        {
+            "timestamp": "2025-07-15T07:56:00Z",
+            "geo": {
+                "lat": 24.8008,
+                "lng": 67.0542
+            },
+            "source": "citizen_report",
+            "raw_text": "Ground floor of our building flooding. Water coming in from main gate. Phase 6 Bukhari area. We have an elderly person here, please send help.",
+            "structured_data": {
+                "reporter_id": "user_4407",
+                "channel": "mobile_app",
+                "water_level_estimate": "knee",
+                "vulnerable_persons": 1,
+                "people_in_danger": 1,
+                "photo_attached": true
+            }
+        },
+        {
+            "timestamp": "2025-07-15T07:58:00Z",
+            "geo": {
+                "lat": 24.7976,
+                "lng": 67.0498
+            },
+            "source": "weather",
+            "raw_text": "PMD Karachi: Rainfall intensity increased. 58mm/hr now recorded. Advisory upgraded to ORANGE for South Karachi districts.",
+            "structured_data": {
+                "rainfall_mm_per_hr": 58,
+                "wind_kmh": 35,
+                "station_id": "PMD-KHI-DHA-01",
+                "advisory_level": "orange"
+            }
+        },
+        {
+            "timestamp": "2025-07-15T08:01:00Z",
+            "geo": {
+                "lat": 24.8044,
+                "lng": 67.0518
+            },
+            "source": "social",
+            "raw_text": "DHA Phase 6 is literally a river right now. Where is the cantonment board?? Every monsoon same story. #KarachiFloods #UrbanFlooding",
+            "structured_data": {
+                "platform": "twitter",
+                "user_followers": 8420,
+                "likes": 247,
+                "retweets": 89,
+                "hashtags": [
+                    "KarachiFloods",
+                    "UrbanFlooding"
+                ]
+            }
+        },
+        {
+            "timestamp": "2025-07-15T08:03:00Z",
+            "geo": {
+                "lat": 24.8001,
+                "lng": 67.0533
+            },
+            "source": "citizen_report",
+            "raw_text": "Ambulance try kar raha hun lekin koi route nahi mil raha. Mere walid ka BP high hai aur road blocked hai.",
+            "structured_data": {
+                "reporter_id": "user_2156",
+                "channel": "voice_call_transcribed",
+                "urgency_self_reported": "high",
+                "medical_emergency": true,
+                "people_in_danger": 1
+            }
+        },
+        {
+            "timestamp": "2025-07-15T08:05:00Z",
+            "geo": {
+                "lat": 24.8016,
+                "lng": 67.0509
+            },
+            "source": "traffic",
+            "raw_text": "Multiple stranded vehicles detected on Khayaban-e-Shaheen. Camera feed shows 3+ stationary cars in flooded section.",
+            "structured_data": {
+                "road_segment": "Khayaban-e-Shaheen",
+                "avg_speed_kmh": 0,
+                "stranded_vehicles": 3,
+                "stranded_vehicles_detected": 3,
+                "camera_id": "CAM-DHA6-22",
+                "incident_type": "stranded_vehicles"
+            }
+        }
+    ]
+}
