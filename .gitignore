@@ -45,6 +45,7 @@ _archive/
 .tools/
 logs/
 runs/
+next-app/
 
 # ---- Build artifacts ----
 apps/web/dist/

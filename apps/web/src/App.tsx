@@ -3,12 +3,21 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { APIProvider } from "@vis.gl/react-google-maps";
 
 import { api, GOOGLE_MAPS_KEY } from "./api";
-import type { ScenarioMeta } from "./types";
+import type { GeoLocation, ScenarioMeta } from "./types";
 import { useRunStream } from "./useRunStream";
 import { Header } from "./components/Header";
 import { CommandCenter } from "./components/CommandCenter";
 import { IncidentDetailPage } from "./components/IncidentDetail";
 import { AgentGraphPage } from "./components/AgentGraph";
+import type { CrisisIncidentType } from "./components/CrisisCreatorModal";
+
+export interface SynthesizeParams {
+  center: GeoLocation;
+  incident_type: CrisisIncidentType;
+  radius_km: number;
+  signal_count: number;
+  description?: string;
+}
 
 export default function App() {
   const [scenarios, setScenarios] = useState<ScenarioMeta[]>([]);
@@ -16,6 +25,11 @@ export default function App() {
   const [runId, setRunId] = useState<string | null>(null);
   const [starting, setStarting] = useState(false);
   const [healthOk, setHealthOk] = useState(false);
+
+  // Ad-hoc crisis creation modes
+  const [placeMode, setPlaceMode] = useState(false);
+  const [drawMode, setDrawMode] = useState(false);
+
   const stream = useRunStream(runId);
   const navigate = useNavigate();
 
@@ -40,7 +54,6 @@ export default function App() {
 
     pingHealth();
     pingScenarios();
-    // Retry every 4s so the dashboard auto-recovers when the API comes back up.
     const handle = setInterval(() => {
       pingHealth();
       if (scenarios.length === 0) pingScenarios();
@@ -66,6 +79,35 @@ export default function App() {
     }
   }, [selectedScenario, navigate]);
 
+  const startSynthesize = useCallback(
+    async (params: SynthesizeParams) => {
+      setStarting(true);
+      try {
+        const res = await api.synthesizeScenario(params);
+        setRunId(res.run_id);
+        setPlaceMode(false);
+        setDrawMode(false);
+        navigate("/");
+      } catch (err) {
+        console.error(err);
+        alert(`Failed to trigger crisis: ${err}`);
+      } finally {
+        setStarting(false);
+      }
+    },
+    [navigate]
+  );
+
+  const togglePlace = useCallback(() => {
+    setPlaceMode((m) => !m);
+    setDrawMode(false);
+  }, []);
+
+  const toggleDraw = useCallback(() => {
+    setDrawMode((m) => !m);
+    setPlaceMode(false);
+  }, []);
+
   if (!GOOGLE_MAPS_KEY) {
     return (
       <div className="h-full flex items-center justify-center p-8">
@@ -82,7 +124,7 @@ export default function App() {
   }
 
   return (
-    <APIProvider apiKey={GOOGLE_MAPS_KEY} libraries={["maps", "marker"]}>
+    <APIProvider apiKey={GOOGLE_MAPS_KEY} libraries={["maps", "marker", "drawing", "geometry"]}>
       <div className="h-full flex flex-col">
         <Header
           scenarios={scenarios}
@@ -94,6 +136,10 @@ export default function App() {
           runStatus={stream.snapshot?.summary.status ?? null}
           healthOk={healthOk}
           incidentsCount={stream.incidents.length}
+          placeMode={placeMode}
+          drawMode={drawMode}
+          onTogglePlaceMode={togglePlace}
+          onToggleDrawMode={toggleDraw}
         />
         <div className="flex-1 min-h-0">
           <Routes>
@@ -106,6 +152,14 @@ export default function App() {
                   signals={stream.snapshot?.signals ?? []}
                   runId={runId}
                   runStatus={stream.snapshot?.summary.status ?? null}
+                  placeMode={placeMode}
+                  drawMode={drawMode}
+                  starting={starting}
+                  onSynthesize={startSynthesize}
+                  onCancelTools={() => {
+                    setPlaceMode(false);
+                    setDrawMode(false);
+                  }}
                 />
               }
             />

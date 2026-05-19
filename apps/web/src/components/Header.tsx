@@ -11,6 +11,11 @@ interface Props {
   runStatus: RunStatus | null;
   healthOk: boolean;
   incidentsCount: number;
+  // Ad-hoc crisis creation
+  placeMode: boolean;
+  drawMode: boolean;
+  onTogglePlaceMode: () => void;
+  onToggleDrawMode: () => void;
 }
 
 export function Header({
@@ -23,6 +28,10 @@ export function Header({
   runStatus,
   healthOk,
   incidentsCount,
+  placeMode,
+  drawMode,
+  onTogglePlaceMode,
+  onToggleDrawMode,
 }: Props) {
   const location = useLocation();
 
@@ -65,13 +74,35 @@ export function Header({
             <StatusPill status={runStatus} />
             <span className="text-slate-400 font-mono">{runId}</span>
             <span className="text-slate-500">·</span>
-            <span className="text-slate-300">{incidentsCount} incident{incidentsCount === 1 ? "" : "s"}</span>
+            <span className="text-slate-300">
+              {incidentsCount} incident{incidentsCount === 1 ? "" : "s"}
+            </span>
           </div>
         )}
+
+        {/* Ad-hoc tools */}
+        <div className="flex items-center gap-1 pl-2 border-l border-ciroBorder">
+          <ToolToggle
+            active={placeMode}
+            label="Pin crisis"
+            icon="📍"
+            onClick={onTogglePlaceMode}
+            title="Click the map to drop a crisis pin"
+          />
+          <ToolToggle
+            active={drawMode}
+            label="Draw area"
+            icon="✏"
+            onClick={onToggleDrawMode}
+            title="Draw a polygon on the map to outline a crisis area"
+          />
+        </div>
+
+        {/* Scenario picker */}
         <select
           value={selectedScenario}
           onChange={(e) => onScenarioChange(e.target.value)}
-          className="bg-slate-800 border border-ciroBorder rounded px-2 py-1.5 text-sm"
+          className="bg-slate-800 border border-ciroBorder rounded px-2 py-1.5 text-sm max-w-[240px]"
         >
           {scenarios.length === 0 && <option value="flood_dha">flood_dha</option>}
           {scenarios.map((s) => (
@@ -99,6 +130,35 @@ export function Header({
         </button>
       </div>
     </header>
+  );
+}
+
+function ToolToggle({
+  active,
+  label,
+  icon,
+  onClick,
+  title,
+}: {
+  active: boolean;
+  label: string;
+  icon: string;
+  onClick: () => void;
+  title: string;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      className={`flex items-center gap-1 px-2.5 py-1.5 rounded text-xs font-medium transition border ${
+        active
+          ? "bg-cyan-500/20 border-cyan-500 text-cyan-200"
+          : "bg-slate-800 border-ciroBorder text-slate-300 hover:text-white hover:border-slate-600"
+      }`}
+    >
+      <span>{icon}</span>
+      <span>{label}</span>
+    </button>
   );
 }
 

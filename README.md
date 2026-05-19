@@ -42,6 +42,18 @@ All six agents communicate via Pydantic v2 schemas. The orchestrator streams per
 
 The scripted demo flow is in [`docs/demo-script.md`](./docs/demo-script.md).
 
+### Two ways to run a scenario
+
+CIRO supports both **canned** and **ad-hoc** crises so a judge can play with it live:
+
+| Mode | How | Use case |
+| --- | --- | --- |
+| **Canned scenario** | Pick from the dropdown (flood, heatwave, accident, infrastructure) and click **Run Scenario** | Repeatable, scripted demo |
+| **Pin crisis** | Click **📍 Pin crisis** in the header, then click anywhere on the map → choose crisis type, radius, signal density | Demonstrates pipeline on a fresh location |
+| **Draw area** | Click **✏ Draw area** in the header, then outline a polygon on the map → radius is computed from the polygon, signals scatter inside | Shows the system handling an arbitrary city block |
+
+For ad-hoc crises, the backend's `POST /scenarios/synthesize` endpoint generates 4–14 deterministic signals around the chosen point and hands them to the same 6-agent pipeline as the canned scenarios.
+
 ---
 
 ## 🏗️ Architecture
@@ -50,15 +62,15 @@ The scripted demo flow is in [`docs/demo-script.md`](./docs/demo-script.md).
 ┌────────────────────────────────────────────────────────────────────────┐
 │                          apps/api  (FastAPI)                           │
 │                                                                        │
-│   POST /scenarios/run ─┐                                               │
-│   POST /signals        │   Orchestrator.run_pipeline()                 │
-│   GET  /runs/{id}      │     │                                         │
-│   WS   /ws/runs/{id} ◄─┤     ▼                                         │
-│                        │   Ingestion → Detection → Analysis (LLM)      │
-│                        │     → Planning (LLM) → Simulation             │
-│                        │     → Impact (LLM)                            │
-│                        │                                                │
-│   RunManager  ◄────────┘   emits {ts,type,data} events                 │
+│   POST /scenarios/run ─────┐                                           │
+│   POST /scenarios/synthesize │ Orchestrator.run_pipeline()             │
+│   POST /signals             │   │                                      │
+│   GET  /runs/{id}           │   ▼                                      │
+│   WS   /ws/runs/{id} ◄──────┤  Ingestion → Detection → Analysis (LLM)  │
+│                             │    → Planning (LLM) → Simulation         │
+│                             │    → Impact (LLM)                        │
+│                             │                                          │
+│   RunManager  ◄─────────────┘  emits {ts,type,data} events             │
 └─────────────────────────────────┬──────────────────────────────────────┘
                                   │ WebSocket stream of events
                 ┌─────────────────┴──────────────────┐
@@ -66,12 +78,13 @@ The scripted demo flow is in [`docs/demo-script.md`](./docs/demo-script.md).
 ┌──────────────────────────────┐      ┌──────────────────────────────┐
 │  apps/web   Command Center   │      │  apps/mobile (Expo)          │
 │  • Google Map (live overlays)│      │  • Citizen tab               │
-│  • Incident list + status    │      │    – submit reports          │
-│  • Agent trace feed          │      │    – nearby alerts           │
-│  • Pipeline progress + KPI   │      │  • Responder tab             │
-│  • Agent Graph view          │      │    – action queue            │
-└──────────────────────────────┘      │    – before/after stats      │
-                                       └──────────────────────────────┘
+│  • Pin crisis on map         │      │    – submit reports          │
+│  • Draw crisis area polygon  │      │    – nearby alerts           │
+│  • Incident list + status    │      │  • Responder tab             │
+│  • Agent trace feed          │      │    – action queue            │
+│  • Pipeline progress + KPI   │      │    – before/after stats      │
+│  • Agent Graph view          │      │                              │
+└──────────────────────────────┘      └──────────────────────────────┘
 ```
 
 ### Tech stack
@@ -163,8 +176,25 @@ docs/
   agent-specs.md       per-agent inputs/outputs/contracts
   demo-script.md       suggested demo flow for the video
 infra/seed/
-  flood_dha.json       10 signals — DHA Phase 6 monsoon flooding scenario
+  flood_dha.json              DHA Phase 6 monsoon flooding (10 signals)
+  heatwave_lahore.json        Mall Road / Anarkali heatwave + power outage (9 signals)
+  accident_islamabad.json     Islamabad Expressway multi-vehicle crash (8 signals)
+  infrastructure_karachi.json KWSB water main rupture, Gulshan-e-Iqbal (9 signals)
 ```
+
+### REST + WebSocket API
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/health` | API liveness and configured Gemini model |
+| `GET` | `/scenarios` | List available canned scenarios |
+| `GET` | `/scenarios/{name}/preview` | Inspect a scenario's raw signals |
+| `POST` | `/scenarios/run` | Start a canned scenario by name |
+| `POST` | `/scenarios/synthesize` | Generate signals around a point and run the pipeline (used by Pin / Draw modes) |
+| `POST` | `/signals` | Submit a single citizen signal (mobile flow) |
+| `GET` | `/runs` | List all runs |
+| `GET` | `/runs/{run_id}` | Full snapshot of a run (signals, incidents, events) |
+| `WS` | `/ws/runs/{run_id}` | Live stream of agent events for a run |
 
 ---
 

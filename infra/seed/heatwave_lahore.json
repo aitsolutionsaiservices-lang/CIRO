@@ -1,0 +1,131 @@
+{
+    "scenario_id": "heatwave_lahore_2026_05_10",
+    "scenario_name": "Heatwave — Lahore Anarkali / Mall Road",
+    "name": "Heatwave — Lahore Anarkali / Mall Road",
+    "description": "Severe afternoon heatwave in Lahore. PMD records 47C with low humidity, K-Electric load surge causes rolling outages, citizen heatstroke reports increasing along Mall Road and Anarkali.",
+    "centroid": { "lat": 31.5710, "lng": 74.3110 },
+    "epicenter": { "lat": 31.5710, "lng": 74.3110, "label": "Mall Road, Lahore" },
+    "radius_km": 2.0,
+    "signals": [
+        {
+            "timestamp": "2026-05-10T11:30:00Z",
+            "geo": { "lat": 31.5704, "lng": 74.3122 },
+            "source": "weather",
+            "raw_text": "PMD Lahore: Temperature 46.8C recorded at Mall Road station. Heat index 51C. Severe heatwave advisory in effect for next 6 hours.",
+            "structured_data": {
+                "temperature_c": 46.8,
+                "heat_index_c": 51,
+                "humidity_pct": 18,
+                "station_id": "PMD-LHR-MALL-02",
+                "advisory_level": "red"
+            }
+        },
+        {
+            "timestamp": "2026-05-10T11:45:00Z",
+            "geo": { "lat": 31.5688, "lng": 74.3098 },
+            "source": "citizen_report",
+            "raw_text": "Mall Road pe bahut garmi hai, ek elderly aunty bench pe behosh hogai hai. Koi paani le aao please. Phone karke hospital wagera bulao.",
+            "structured_data": {
+                "reporter_id": "user_3382",
+                "channel": "mobile_app",
+                "urgency_self_reported": "critical",
+                "vulnerable_persons": 1,
+                "people_in_danger": 1,
+                "medical_emergency": true
+            }
+        },
+        {
+            "timestamp": "2026-05-10T11:50:00Z",
+            "geo": { "lat": 31.5720, "lng": 74.3140 },
+            "source": "social",
+            "raw_text": "Lahore is COOKING. 47C and no electricity since morning. AC chal hi nahi raha. K-Electric is a joke. #LahoreHeatwave #PowerOutage",
+            "structured_data": {
+                "platform": "twitter",
+                "user_followers": 5240,
+                "likes": 312,
+                "retweets": 78,
+                "hashtags": ["LahoreHeatwave", "PowerOutage"]
+            }
+        },
+        {
+            "timestamp": "2026-05-10T11:55:00Z",
+            "geo": { "lat": 31.5742, "lng": 74.3088 },
+            "source": "traffic",
+            "raw_text": "K-Electric grid alert: load on Mall Road feeder exceeded 110% rated capacity. Automatic load shedding initiated for sector 4B. Estimated restoration 90 minutes.",
+            "structured_data": {
+                "utility": "K-Electric",
+                "feeder_id": "LHR-MALL-04B",
+                "load_pct": 112,
+                "estimated_restoration_min": 90,
+                "affected_consumers": 18400
+            }
+        },
+        {
+            "timestamp": "2026-05-10T12:02:00Z",
+            "geo": { "lat": 31.5695, "lng": 74.3105 },
+            "source": "citizen_report",
+            "raw_text": "Anarkali bazaar mein gas station ke paas ek rickshaw driver collapse hogaya hai. Ambulance try kar raha hun but Rescue 1122 wait 25 minutes bata raha hai.",
+            "structured_data": {
+                "reporter_id": "user_8841",
+                "channel": "voice_call_transcribed",
+                "urgency_self_reported": "critical",
+                "people_in_danger": 1,
+                "medical_emergency": true,
+                "service_eta_min": 25
+            }
+        },
+        {
+            "timestamp": "2026-05-10T12:08:00Z",
+            "geo": { "lat": 31.5730, "lng": 74.3155 },
+            "source": "traffic",
+            "raw_text": "Multiple vehicle breakdowns reported on Mall Road northbound. Camera feed shows 4 stationary cars with hoods up. Traffic flow severely impacted.",
+            "structured_data": {
+                "road_segment": "Mall Road northbound",
+                "stranded_vehicles": 4,
+                "avg_speed_kmh": 6,
+                "baseline_speed_kmh": 28,
+                "camera_id": "CAM-LHR-12",
+                "incident_type": "vehicle_breakdown"
+            }
+        },
+        {
+            "timestamp": "2026-05-10T12:15:00Z",
+            "geo": { "lat": 31.5680, "lng": 74.3140 },
+            "source": "social",
+            "raw_text": "Mayo Hospital ER mein heatstroke patients ki line lag gayi hai. Doctors are stretched thin. Please everyone stay indoors and hydrate. #LahoreEmergency",
+            "structured_data": {
+                "platform": "twitter",
+                "user_followers": 12300,
+                "likes": 890,
+                "retweets": 421,
+                "hashtags": ["LahoreEmergency"]
+            }
+        },
+        {
+            "timestamp": "2026-05-10T12:22:00Z",
+            "geo": { "lat": 31.5712, "lng": 74.3120 },
+            "source": "weather",
+            "raw_text": "PMD update: Temperature peak forecast 49C between 13:30-15:00. Real-feel will exceed 53C. URGENT advisory: outdoor activity dangerous.",
+            "structured_data": {
+                "temperature_forecast_c": 49,
+                "heat_index_forecast_c": 53,
+                "duration_forecast_hr": 3,
+                "station_id": "PMD-LHR-MALL-02",
+                "advisory_level": "red"
+            }
+        },
+        {
+            "timestamp": "2026-05-10T12:28:00Z",
+            "geo": { "lat": 31.5702, "lng": 74.3115 },
+            "source": "citizen_report",
+            "raw_text": "Hospital wala area mein water tanker abhi tak nahi aaya. Boundh ki nalkay mein pani nahi. Buzurg log dehydrate ho rahe hain. Help.",
+            "structured_data": {
+                "reporter_id": "user_9920",
+                "channel": "mobile_app",
+                "urgency_self_reported": "high",
+                "vulnerable_persons": 8,
+                "people_in_danger": 3
+            }
+        }
+    ]
+}

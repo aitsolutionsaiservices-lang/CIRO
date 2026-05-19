@@ -1,0 +1,117 @@
+{
+    "scenario_id": "accident_islamabad_2026_04_20",
+    "scenario_name": "Multi-vehicle accident — Islamabad Expressway near Faizabad",
+    "name": "Multi-vehicle accident — Islamabad Expressway near Faizabad",
+    "description": "Rush-hour multi-vehicle collision on Islamabad Expressway near Faizabad interchange. Truck and 3 cars involved. Injuries reported, traffic backing up to Koral Chowk.",
+    "centroid": { "lat": 33.6611, "lng": 73.0823 },
+    "epicenter": { "lat": 33.6611, "lng": 73.0823, "label": "Islamabad Expressway, Faizabad Interchange" },
+    "radius_km": 1.5,
+    "signals": [
+        {
+            "timestamp": "2026-04-20T17:35:00Z",
+            "geo": { "lat": 33.6618, "lng": 73.0830 },
+            "source": "citizen_report",
+            "raw_text": "MAJOR accident on Islamabad Expressway just before Faizabad interchange. Truck and 2 cars collided. Driver of one car trapped. We need ambulances ASAP.",
+            "structured_data": {
+                "reporter_id": "user_4421",
+                "channel": "mobile_app",
+                "urgency_self_reported": "critical",
+                "vehicles_involved": 3,
+                "people_in_danger": 2,
+                "medical_emergency": true
+            }
+        },
+        {
+            "timestamp": "2026-04-20T17:36:00Z",
+            "geo": { "lat": 33.6605, "lng": 73.0815 },
+            "source": "traffic",
+            "raw_text": "Islamabad Expressway southbound — sudden halt detected via camera feed. All 3 lanes blocked between Faizabad and Koral exit. Backup forming rapidly.",
+            "structured_data": {
+                "road_segment": "Islamabad Expressway southbound",
+                "lanes_blocked": 3,
+                "avg_speed_kmh": 0,
+                "baseline_speed_kmh": 65,
+                "camera_id": "CAM-ISB-EXP-07",
+                "incident_type": "blockage"
+            }
+        },
+        {
+            "timestamp": "2026-04-20T17:38:00Z",
+            "geo": { "lat": 33.6622, "lng": 73.0828 },
+            "source": "citizen_report",
+            "raw_text": "Behind the accident now. There's smoke coming from one of the cars. Looks like the truck driver is unconscious. We're calling 1122 but the operator is busy. Please help.",
+            "structured_data": {
+                "reporter_id": "user_8830",
+                "channel": "voice_call_transcribed",
+                "urgency_self_reported": "critical",
+                "fire_risk": true,
+                "people_in_danger": 3
+            }
+        },
+        {
+            "timestamp": "2026-04-20T17:41:00Z",
+            "geo": { "lat": 33.6614, "lng": 73.0825 },
+            "source": "social",
+            "raw_text": "Stuck on Expressway near Faizabad. Massive accident ahead, looks ugly. Smoke. People running to help. Avoid this route till morning. Pray for the injured. 🙏 #IslamabadTraffic",
+            "structured_data": {
+                "platform": "twitter",
+                "user_followers": 2840,
+                "likes": 156,
+                "retweets": 89,
+                "hashtags": ["IslamabadTraffic"]
+            }
+        },
+        {
+            "timestamp": "2026-04-20T17:44:00Z",
+            "geo": { "lat": 33.6580, "lng": 73.0790 },
+            "source": "traffic",
+            "raw_text": "Congestion now backing up to Koral Chowk. Average speed 4 km/h over 2.5 km stretch. Alternative route via Lehtrar Road experiencing 35% above-baseline volume.",
+            "structured_data": {
+                "road_segment": "Islamabad Expressway",
+                "backup_length_km": 2.5,
+                "avg_speed_kmh": 4,
+                "baseline_speed_kmh": 60,
+                "alt_route_overflow_pct": 35
+            }
+        },
+        {
+            "timestamp": "2026-04-20T17:46:00Z",
+            "geo": { "lat": 33.6620, "lng": 73.0832 },
+            "source": "citizen_report",
+            "raw_text": "Civilians have pulled two people out of the car. One is bleeding heavily from the head. Need paramedic stretcher and oxygen NOW. Where is Rescue 1122?",
+            "structured_data": {
+                "reporter_id": "user_1109",
+                "channel": "mobile_app",
+                "urgency_self_reported": "critical",
+                "people_in_danger": 2,
+                "medical_emergency": true,
+                "service_eta_min": 12
+            }
+        },
+        {
+            "timestamp": "2026-04-20T17:50:00Z",
+            "geo": { "lat": 33.6608, "lng": 73.0820 },
+            "source": "social",
+            "raw_text": "Rescue 1122 ETA mein 12 minutes bata rahe hain. Bohat zyada hai. Koi off-duty doctor ya paramedic Faizabad ke paas? Help needed. 🚨",
+            "structured_data": {
+                "platform": "facebook",
+                "user_followers": 1140,
+                "likes": 67,
+                "shares": 24,
+                "urgency_inferred": "high"
+            }
+        },
+        {
+            "timestamp": "2026-04-20T17:53:00Z",
+            "geo": { "lat": 33.6594, "lng": 73.0810 },
+            "source": "traffic",
+            "raw_text": "Police vehicles entering scene from Koral side. Cordon being established. Expressway closed for emergency operations.",
+            "structured_data": {
+                "road_segment": "Islamabad Expressway",
+                "incident_type": "police_response",
+                "emergency_units_on_scene": 2,
+                "status": "cordoned"
+            }
+        }
+    ]
+}

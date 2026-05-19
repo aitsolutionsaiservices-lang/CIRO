@@ -46,6 +46,19 @@ export const api = {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(body),
     }).then(jsonOrThrow<any>),
+
+  synthesizeScenario: (body: {
+    center: { lat: number; lng: number };
+    incident_type: "flood" | "heatwave" | "accident" | "infrastructure" | "blockage";
+    radius_km?: number;
+    signal_count?: number;
+    description?: string;
+  }) =>
+    fetch(`${API_BASE}/scenarios/synthesize`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    }).then(jsonOrThrow<{ run_id: string; status: string; scenario: string; signal_count: number }>),
 };
 
 export function wsUrl(run_id: string): string {

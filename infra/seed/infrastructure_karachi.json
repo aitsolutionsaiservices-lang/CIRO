@@ -1,0 +1,126 @@
+{
+    "scenario_id": "infra_karachi_2026_02_15",
+    "scenario_name": "Major water main rupture — Karachi Gulshan-e-Iqbal",
+    "name": "Major water main rupture — Karachi Gulshan-e-Iqbal",
+    "description": "K-IV trunk water main rupture under University Road in Gulshan-e-Iqbal. Flooding of underpass, road sinking, two neighborhoods cut off from water supply. KWSB responding.",
+    "centroid": { "lat": 24.9170, "lng": 67.0901 },
+    "epicenter": { "lat": 24.9170, "lng": 67.0901, "label": "University Road, Gulshan-e-Iqbal, Karachi" },
+    "radius_km": 1.2,
+    "signals": [
+        {
+            "timestamp": "2026-02-15T05:42:00Z",
+            "geo": { "lat": 24.9168, "lng": 67.0905 },
+            "source": "citizen_report",
+            "raw_text": "Loud bang and water gushing out of University Road near NIPA chowrangi. Looks like the main water line burst. Road is filling up with water rapidly. Cars cannot pass.",
+            "structured_data": {
+                "reporter_id": "user_5520",
+                "channel": "mobile_app",
+                "urgency_self_reported": "high",
+                "infrastructure_type": "water_main"
+            }
+        },
+        {
+            "timestamp": "2026-02-15T05:50:00Z",
+            "geo": { "lat": 24.9175, "lng": 67.0895 },
+            "source": "traffic",
+            "raw_text": "KWSB SCADA alert: pressure drop of 73% on K-IV trunk line at sector G24. Estimated discharge 4500 L/min. Possible rupture. Field crew dispatched.",
+            "structured_data": {
+                "utility": "KWSB",
+                "trunk_id": "K-IV-G24",
+                "pressure_drop_pct": 73,
+                "discharge_l_per_min": 4500,
+                "field_crew_dispatched": true
+            }
+        },
+        {
+            "timestamp": "2026-02-15T05:58:00Z",
+            "geo": { "lat": 24.9180, "lng": 67.0912 },
+            "source": "traffic",
+            "raw_text": "University Road underpass between Gulshan Block 6 and NIPA flooding. Water level 35cm and rising. Underpass effectively closed. Diversion needed.",
+            "structured_data": {
+                "road_segment": "University Road underpass",
+                "water_level_cm": 35,
+                "status": "impassable",
+                "incident_type": "flooding"
+            }
+        },
+        {
+            "timestamp": "2026-02-15T06:05:00Z",
+            "geo": { "lat": 24.9162, "lng": 67.0888 },
+            "source": "citizen_report",
+            "raw_text": "Pure Gulshan Block 13 mein paani nahi hai. Subah ka time hai aur taps bilkul dry. Bachay school jane wale hain. Kya horaha hai?",
+            "structured_data": {
+                "reporter_id": "user_7711",
+                "channel": "mobile_app",
+                "urgency_self_reported": "medium",
+                "neighborhood": "Gulshan Block 13",
+                "issue": "no_water_supply"
+            }
+        },
+        {
+            "timestamp": "2026-02-15T06:12:00Z",
+            "geo": { "lat": 24.9185, "lng": 67.0918 },
+            "source": "social",
+            "raw_text": "Driving on University Road, road is literally sinking. Big crater forming. KWSB should fix their crumbling infrastructure. This is the third pipe burst this year. #KarachiInfrastructure",
+            "structured_data": {
+                "platform": "twitter",
+                "user_followers": 6840,
+                "likes": 412,
+                "retweets": 167,
+                "hashtags": ["KarachiInfrastructure"]
+            }
+        },
+        {
+            "timestamp": "2026-02-15T06:18:00Z",
+            "geo": { "lat": 24.9155, "lng": 67.0905 },
+            "source": "citizen_report",
+            "raw_text": "Aga Khan Hospital ke paas ka road sinking ho raha hai. Ambulance entry route block. There are critical patients coming in from Saddar — they need an alternate route NOW.",
+            "structured_data": {
+                "reporter_id": "user_2240",
+                "channel": "voice_call_transcribed",
+                "urgency_self_reported": "critical",
+                "facility_at_risk": "hospital_access",
+                "medical_emergency": true
+            }
+        },
+        {
+            "timestamp": "2026-02-15T06:25:00Z",
+            "geo": { "lat": 24.9170, "lng": 67.0898 },
+            "source": "traffic",
+            "raw_text": "KWSB field report: rupture confirmed in 36-inch K-IV main. Estimated 4 hour repair window. Tankers being deployed to affected neighborhoods. Police diverting traffic.",
+            "structured_data": {
+                "utility": "KWSB",
+                "pipe_diameter_in": 36,
+                "estimated_repair_hr": 4,
+                "tanker_count": 6,
+                "affected_neighborhoods": 3
+            }
+        },
+        {
+            "timestamp": "2026-02-15T06:32:00Z",
+            "geo": { "lat": 24.9176, "lng": 67.0908 },
+            "source": "traffic",
+            "raw_text": "University Road westbound at NIPA — major sinkhole now visible. 2 vehicles stuck in subsidence. Towing units requested. Avoid area.",
+            "structured_data": {
+                "road_segment": "University Road westbound",
+                "sinkhole_diameter_m": 3.5,
+                "stranded_vehicles": 2,
+                "incident_type": "sinkhole",
+                "status": "closed"
+            }
+        },
+        {
+            "timestamp": "2026-02-15T06:40:00Z",
+            "geo": { "lat": 24.9160, "lng": 67.0890 },
+            "source": "social",
+            "raw_text": "Block 13, 6, and Civic Centre ke residents — ghar mein paani store karlo if you have supply. Tanker reach kab tak hoga koi confirmation nahi. KWSB se contact karne ki koshish karo. 🚰",
+            "structured_data": {
+                "platform": "facebook",
+                "user_followers": 18900,
+                "likes": 2340,
+                "shares": 1180,
+                "urgency_inferred": "high"
+            }
+        }
+    ]
+}

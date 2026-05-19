@@ -6,6 +6,8 @@ Endpoints (all JSON unless noted):
     GET  /scenarios                 List seed scenarios available on disk.
     GET  /scenarios/{name}/preview  Return the raw signals for a seed scenario.
     POST /scenarios/run             Start a run. Body: { "scenario": "flood_dha" } OR { "signals": [...] }.
+    POST /scenarios/synthesize      Start an ad-hoc run from a clicked point or drawn polygon.
+                                    Body: { "center": {"lat","lng"}, "incident_type", "radius_km"?, "description"?, "signal_count"? }.
     GET  /runs                      List all runs (in-memory).
     GET  /runs/{run_id}             Snapshot of one run (signals + incidents + events).
     POST /signals                   Submit a single signal (mobile citizen flow).
@@ -36,6 +38,7 @@ if ENV_PATH.exists():
 
 from .agents.ingestion import IngestionAgent  # noqa: E402
 from .orchestrator import Orchestrator, RunManager, RunSnapshot, RunSummary  # noqa: E402
+from .scenario_synthesizer import synthesize_signals  # noqa: E402
 from .schemas.models import CanonicalSignal, GeoLocation, SignalSource  # noqa: E402
 
 
@@ -118,6 +121,21 @@ class SignalSubmitResponse(BaseModel):
     triggered_run_id: Optional[str] = None
 
 
+class SynthesizeRequest(BaseModel):
+    """Ad-hoc scenario request — click on the map or draw a polygon."""
+
+    center: GeoLocation
+    incident_type: str = Field(
+        description="One of: flood | heatwave | accident | infrastructure | blockage",
+    )
+    radius_km: float = Field(default=0.5, ge=0.05, le=10.0)
+    signal_count: int = Field(default=8, ge=4, le=16)
+    description: Optional[str] = Field(
+        default=None,
+        description="Optional area label / extra context woven into the signal texts",
+    )
+
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -198,6 +216,30 @@ async def run_scenario(req: RunRequest) -> RunStartedResponse:
         signals = data["signals"]
         scenario = req.scenario or data.get("name", "seed")
 
+    state = await orchestrator.run(signals, scenario_name=scenario)
+    return RunStartedResponse(
+        run_id=state.summary.run_id,
+        status=state.summary.status,
+        scenario=scenario,
+        signal_count=len(signals),
+    )
+
+
+@app.post("/scenarios/synthesize", response_model=RunStartedResponse)
+async def synthesize_scenario(req: SynthesizeRequest) -> RunStartedResponse:
+    """Generate signals around a clicked point and run the orchestrator on them."""
+    try:
+        signals = synthesize_signals(
+            center=req.center,
+            incident_type=req.incident_type,  # type: ignore[arg-type]
+            radius_km=req.radius_km,
+            count=req.signal_count,
+            description=req.description,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+    scenario = f"adhoc_{req.incident_type}"
     state = await orchestrator.run(signals, scenario_name=scenario)
     return RunStartedResponse(
         run_id=state.summary.run_id,

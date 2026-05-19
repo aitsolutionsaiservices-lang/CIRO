@@ -26,6 +26,7 @@
               │                  FastAPI                    │
               │                                             │
    client ───►│  POST /scenarios/run                        │
+              │  POST /scenarios/synthesize                 │
               │  POST /signals                              │
               │  GET  /runs, /runs/{id}                     │
               │  WS   /ws/runs/{id}                         │
@@ -44,6 +45,21 @@
               │    handlers await new events)               │
               └─────────────────────────────────────────────┘
 ```
+
+### Crisis entry points
+
+The same orchestrator handles three kinds of input, all producing identical
+downstream event streams:
+
+| Entry point | Signal source | Use case |
+| --- | --- | --- |
+| `POST /scenarios/run` with `{scenario}` | Loaded from `infra/seed/*.json` | Canned demo scenarios |
+| `POST /scenarios/synthesize` with `{center, incident_type, radius_km, signal_count, description}` | Generated on-the-fly by `apps/api/scenario_synthesizer.py` from templates | Operator drops a pin / draws a polygon |
+| `POST /signals` with `{raw_text, lat, lng, ...}` | Single citizen submission, optionally enriched via Gemini | Mobile app citizen reports |
+
+`scenario_synthesizer.py` uses a stable seed derived from
+`(lat, lng, incident_type, radius)` so re-clicking the same point produces
+the same crisis — the demo is fully repeatable for judges.
 
 ### Agents
 
@@ -122,3 +138,7 @@ scenario_failed      something went wrong, error attached
 - **No retry/back-off on Gemini calls**: production would wrap each agent
   in tenacity-style retries. For demo, agents fail loud and the run is
   marked `failed` with the error attached.
+- **Synthesizer uses templates, not Gemini**: each ad-hoc crisis still
+  drives 3+ Gemini calls (analysis, planning, impact narrative), but the
+  *input* signals are template-generated so we don't burn free-tier quota
+  pre-generating the same content every click.
