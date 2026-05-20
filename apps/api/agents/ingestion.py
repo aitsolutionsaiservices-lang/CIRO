@@ -21,6 +21,7 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
 
+from .._retry import call_with_retry
 from ..schemas.models import CanonicalSignal, GeoLocation, SignalSource
 
 
@@ -84,7 +85,8 @@ class IngestionAgent:
             "Messages may mix English and Urdu (roman script). "
             "Return JSON matching the schema.\n\nMessage:\n" + text
         )
-        response = self.client.models.generate_content(
+        response = call_with_retry(
+            self.client.models.generate_content,
             model=self.model_name,
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -92,5 +94,6 @@ class IngestionAgent:
                 response_schema=_IngestionEnrichment,
                 temperature=0.1,
             ),
+            label="IngestionAgent",
         )
         return json.loads(response.text)

@@ -5,6 +5,7 @@ from typing import Optional
 from google import genai
 from google.genai import types
 
+from .._retry import call_with_retry
 from ..schemas.models import CandidateIncident, SituationAnalysis
 
 
@@ -32,7 +33,8 @@ class AnalysisAgent:
             f"Incident Data:\n{incident.model_dump_json(indent=2)}"
         )
 
-        response = self.client.models.generate_content(
+        response = call_with_retry(
+            self.client.models.generate_content,
             model=self.model_name,
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -40,6 +42,7 @@ class AnalysisAgent:
                 response_schema=SituationAnalysis,
                 temperature=0.2,
             ),
+            label="AnalysisAgent",
         )
 
         # Parse the JSON response back into a SituationAnalysis model

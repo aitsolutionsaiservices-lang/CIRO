@@ -16,6 +16,7 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
 
+from .._retry import call_with_retry
 from ..schemas.models import (
     Action,
     ActionPlan,
@@ -90,7 +91,8 @@ class PlanningAgent:
         incident: CandidateIncident,
     ) -> ActionPlan:
         prompt = self._build_prompt(analysis, incident)
-        response = self.client.models.generate_content(
+        response = call_with_retry(
+            self.client.models.generate_content,
             model=self.model_name,
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -98,6 +100,7 @@ class PlanningAgent:
                 response_schema=_PlannedActionPlan,
                 temperature=0.3,
             ),
+            label="PlanningAgent",
         )
         planned = _PlannedActionPlan.model_validate_json(response.text)
         return self._to_action_plan(planned)

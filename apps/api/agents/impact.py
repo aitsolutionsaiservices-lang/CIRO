@@ -15,6 +15,7 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
 
+from .._retry import call_with_retry
 from ..schemas.models import (
     CandidateIncident,
     ExecutionLog,
@@ -191,7 +192,8 @@ class ImpactAgent:
                 f"After: {after}\n"
                 f"Delta: {delta}\n"
             )
-            response = self.client.models.generate_content(
+            response = call_with_retry(
+                self.client.models.generate_content,
                 model=self.model_name,
                 contents=prompt,
                 config=types.GenerateContentConfig(
@@ -199,6 +201,7 @@ class ImpactAgent:
                     response_schema=_Narrative,
                     temperature=0.3,
                 ),
+                label="ImpactAgent",
             )
             return _Narrative.model_validate_json(response.text).narrative
         except Exception:  # noqa: BLE001 — narrative is non-critical
